@@ -1,3 +1,4 @@
+import PyQt5.QtWidgets as Qtw
 import string
 import random
 from main import *
@@ -5,6 +6,18 @@ from main import *
 class FirstApp(MainApp):
     def __init__(self, window_title: str, size_w: int, size_h: int):
         super().__init__(window_title, size_w, size_h)
+
+        self.eng_Text = {'Ваш пароль':'Your password', 'Без букв':'No letters'}
+        self.ru_Text = {'Ваш пароль':'Ваш пароль', 'Без букв':'Без букв'}
+
+        button_eng = Qtw.QPushButton('Eng')
+        button_ru = Qtw.QPushButton('Ru')
+        self.h_layout.addWidget(button_en)
+        self.h_layout.addWidget(button_ru)
+        button_eng.clicked.connect(self.language_change('ENG'))
+        button_ru.clicked.connect(self.language_change('RU'))
+
+        self.h_layout.addWidget(self.out_label)
 
         # Встановлюю зовнішній вигляд вікна.
         self.setStyleSheet("""
@@ -50,8 +63,8 @@ class FirstApp(MainApp):
         self.h_layout2.addWidget(self.len_field)
 
         # Створюю напис для відображення згенерованого пароля.
-        out_label = Qtw.QLabel('Ваш пароль: ')
-        self.h_layout.addWidget(out_label)
+        self.out_label = Qtw.QLabel('Ваш пароль: ')
+        self.h_layout.addWidget(self.out_label)
 
         # Створюю поле для відображення згенерованого пароля.
         self.password_display = Qtw.QLineEdit()
@@ -83,6 +96,15 @@ class FirstApp(MainApp):
 
         # Встановлюю згенерований пароль в поле для відображення.
         self.password_display.setText(password)
+
+    def language_change(self, lang_type):
+        lang = None
+        if lang_type == "ENG":
+            lang = self.eng_Text
+        elif lang_type == "RU":
+            lang_type = self.ru_Text
+
+        self.out_label.setText(lang['Ваш пароль '])
 
 if __name__ == '__main__':
     # Створюю і запускаю додаток.
